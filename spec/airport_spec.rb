@@ -2,7 +2,7 @@ require 'airport'
 
 
 describe Airport do 
-  let(:airport) {Airport.new()}
+  let(:airport) {Airport.new(5)}
 
   it 'is created with no planes' do 
     expect(airport.planes).to eq []
@@ -17,21 +17,38 @@ describe Airport do
     expect(airport.bomb_alert?).to be_false
   end
 
-  it 'does have a bomb alert' do
-    airport = Airport.new(:planes, true)
+  it 'can have a bomb alert' do
+    airport = Airport.new(5, :planes, true)
     expect(airport.bomb_alert?).to be_true
   end
 
   it 'can set a bomb_alert' do
-    airport = Airport.new(:planes)
+    airport = Airport.new(5, :planes)
     airport.bomb_alert!
     expect(airport.bomb_alert).to be_true
   end
 
   it 'can clear a bomb_alert' do
-    airport = Airport.new(:planes, true)
+    airport = Airport.new(5, :planes, true)
     airport.clear_bomb_alert!
     expect(airport.bomb_alert).to be_false
+  end
+
+  it 'knows if it is full' do
+    expect(airport.full?).to be_true
+  end
+
+  it 'knows if it has spaces to land planes' do
+    expect(airport.has_capacity?).to be_true
+  end
+
+  it 'lands planes if there is no bomb_alert' do
+    plane = double :plane
+    expect(airport.land plane).to eq [plane]
+  end
+
+  it 'does not land planes if there is a bomb_alert' do
+    expect{airport.land(plane)}.to raise_error 'Permission denied due to security alert'
   end
   
 end

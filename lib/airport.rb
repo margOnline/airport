@@ -4,10 +4,11 @@ class Airport
 
   attr_accessor :planes, :bomb_alert
 
-  def initialize (planes=[], bomb_alert = false)
+  def initialize (max_capacity, planes=[], bomb_alert = false)
     @planes = planes
     @bomb_alert = bomb_alert
     @weather = Weather.new
+    @max_capacity = max_capacity
 
   end
 
@@ -31,16 +32,19 @@ class Airport
     planes.length < @max_capacity
   end
 
+  def full?
+    !has_capacity?
+  end
+
   def give_permission?(plane)
     weather.is_sunny? && !bomb_alert?
   end
 
   def land(plane)
-    if give_permission? && has_capacity?
-      planes.push(plane)
-    else
-      raise 'Permission denied'
-    end
+    raise 'Permission denied due to security alert' if bomb_alert?
+    raise 'Permission denied  - airport full' if full?
+    raise 'Permission denied - poor weather conditions' if weather.weather_is_stormy?
+    planes = planes.push(plane)
   end
 
 end
