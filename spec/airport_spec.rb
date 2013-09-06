@@ -81,7 +81,6 @@ describe Airport do
   end
 
   it 'does not land planes if the weather is stormy' do
-
     weather = double :weather, {:condition => 'stormy'}
     plane = double :plane
     expect{airport.land(plane)}.to raise_error 'Permission denied - poor weather conditions'
@@ -96,7 +95,7 @@ describe Airport do
   it 'does not let a plane take off if there are no planes' do
       airport = Airport.new(5, [], false)
       plane = double :plane
-      expect{airport.take_off(plane)}.to raise_error 'No planes in the airport'
+      expect{airport.take_off(plane)}.to raise_error 'Permission denied - no planes in the airport'
   end
 
   it 'lets planes take off if there is no bomb_alert' do
