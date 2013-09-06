@@ -1,22 +1,12 @@
 class Plane
-
-
-  def initialize
-
-  end
     
 
   def take_off? (airport)
-    return true if airport.permission_given?
-    false
+    airport.permission_given?
   end
 
   def land?(airport)
-    return true if airport.permission_given? 
-    false
+    airport.permission_given? 
   end
-
-
-
 
 end
