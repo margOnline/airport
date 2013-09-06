@@ -70,8 +70,9 @@ describe Airport do
 
   it 'does not land planes if there is no space' do
     plane = double :plane
-    airport = Airport.new(0)
-    expect{airport.land plane }.to raise_error 'Permission denied - airport full'
+    plane1 = double :plane
+    airport = Airport.new(1, [plane])
+    expect{airport.land plane1 }.to raise_error 'Permission denied - airport full'
   end
 
   it 'lands planes if the weather is sunny' do
@@ -80,6 +81,7 @@ describe Airport do
   end
 
   it 'does not land planes if the weather is stormy' do
+
     weather = double :weather, {:condition => 'stormy'}
     plane = double :plane
     expect{airport.land(plane)}.to raise_error 'Permission denied - poor weather conditions'
