@@ -36,15 +36,18 @@ class Airport
     !has_capacity?
   end
 
-  def give_permission?(plane)
-    weather.is_sunny? && !bomb_alert?
+  def permission_given?(plane)
+    raise 'Permission denied due to security alert' if bomb_alert?
+    raise 'Permission denied  - airport full' if full?
+    raise 'Permission denied - poor weather conditions' if @weather.is_stormy?
   end
 
   def land(plane)
-    raise 'Permission denied due to security alert' if bomb_alert?
-    raise 'Permission denied  - airport full' if full?
-   # raise 'Permission denied - poor weather conditions' if @weather.is_stormy?
-    planes = @planes.push(plane)
+    planes = @planes.push(plane)if permission_given?(plane)
+  end
+
+  def take_off(plane)
+    planes = @planes.pop if permission_given?(plane)
   end
 
 end
