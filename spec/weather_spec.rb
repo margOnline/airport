@@ -5,8 +5,8 @@ require 'weather'
   let(:weather) {Weather.new}
   
   it 'is randomly set when initialized' do
-    # conditions = %w(sunny stormy)
-    weather.condition.should be('sunny', 'stormy')
+    conditions = %w(sunny stormy)
+    expect(conditions.include(weather.condition)).to be_true
   end
 
 

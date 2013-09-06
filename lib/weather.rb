@@ -5,10 +5,10 @@ class Weather
   CONDITIONS = %w(sunny stormy)
 
   def inititalize
-    @condition = set_weather  
+    @condition = set 
   end
 
-  def set_weather
+  def set
     CONDITIONS.sample
   end
 
@@ -17,7 +17,7 @@ class Weather
   end
 
   def is_stormy?
-    !is_sunny?
+    @condition == CONDITIONS[1]
   end
 
   def change!

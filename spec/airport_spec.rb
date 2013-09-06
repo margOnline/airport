@@ -8,9 +8,16 @@ describe Airport do
     expect(airport.planes).to eq []
   end
 
-  it 'has a weather condition' do
-    weather = double :weather
-    expect(airport.weather).to be_true
+  it 'can have sunny weather' do
+    weather = double :weather, {:condition => 'sunny'}
+    conditions = %w(sunny stormy)
+    expect(conditions.include?(weather.condition)).to be_true
+  end
+
+  it 'can have stormy weather' do
+    weather = double :weather, {:condition => 'stormy'}
+    conditions = %w(sunny stormy)
+    expect(conditions.include?(weather.condition)).to be_true
   end
 
   it 'does not have a bomb alert' do
@@ -62,14 +69,12 @@ describe Airport do
   end
 
   it 'does not land planes if there is no space' do
-    # weather = double :weather
     plane = double :plane
     airport = Airport.new(0)
     expect{airport.land plane }.to raise_error 'Permission denied - airport full'
   end
 
   it 'lands planes if the weather is sunny' do
-    weather = double :weather, {:condition => 'sunny'}
     plane = double :plane
     expect(airport.land plane).to eq [plane]
   end
@@ -83,38 +88,37 @@ describe Airport do
   it 'lets a plane take off if there is one' do
     plane = double :plane
     airport = Airport.new(5, [plane], false)
-    expect(airport.land(plane)).to eq []
+    expect(airport.take_off(plane)).to eq []
   end
 
   it 'does not let a plane take off if there are no planes' do
       airport = Airport.new(5, [], false)
       plane = double :plane
-      expect{airport.land(plane)}.to raise_error 'No planes in the airport'
+      expect{airport.take_off(plane)}.to raise_error 'No planes in the airport'
   end
 
   it 'lets planes take off if there is no bomb_alert' do
     plane = double :plane
-    weather = double :weather, {:condition => 'sunny'}
-    expect(airport.land plane).to eq [plane]
+    airport = Airport.new(5, [plane])
+    expect(airport.take_off plane).to eq []
   end
 
   it 'does not let planes take off if there is a bomb_alert' do
     airport = Airport.new(0, [], true)
-    weather = double :weather, {:condition => 'sunny'}
     plane = double :plane
-    expect{airport.land(plane)}.to raise_error 'Permission denied due to security alert'
+    expect{airport.take_off(plane)}.to raise_error 'Permission denied due to security alert'
   end
 
   it 'lets planes take off if the weather is sunny' do
-    weather = double :weather, {:condition => 'sunny'}
     plane = double :plane
-    expect(airport.land plane).to eq [plane]
+    airport = Airport.new(5,[plane])
+    expect(airport.take_off plane).to eq []
   end
 
   it 'does not let planes take off if the weather is stormy' do
     weather = double :weather, {:condition => 'stormy'}
     plane = double :plane
-    expect{airport.land(plane)}.to raise_error 'Permission denied - poor weather conditions'
+    expect{airport.take_off(plane)}.to raise_error 'Permission denied - poor weather conditions'
   end
 
   
