@@ -81,7 +81,7 @@ describe Airport do
   end
 
   it 'does not land planes if the weather is stormy' do
-    weather = double :weather, {:condition => 'stormy'}
+    weather = double :weather, {:is_stormy? => true}
     plane = double :plane
     expect{airport.land(plane)}.to raise_error 'Permission denied - poor weather conditions'
   end
@@ -117,10 +117,14 @@ describe Airport do
   end
 
   it 'does not let planes take off if the weather is stormy' do
-    weather = double :weather, {:condition => 'stormy'}
     plane = double :plane
+    weather = double :weather
+    airport = Airport.new(5,[plane])
+    weather.stub(:is_stormy?) { true}
+  
     expect{airport.take_off(plane)}.to raise_error 'Permission denied - poor weather conditions'
   end
+
 
   
 end
