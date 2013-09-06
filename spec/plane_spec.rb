@@ -18,12 +18,12 @@ require 'plane'
     plane.land?(airport).should be_true
   end
 
-  it 'does not land if permmission not given by airport' do
+  it 'does not land if permission not given by airport' do
     airport = double :airport, {:permission_given_to_land? => false}
     plane.land?(airport).should be_false
   end
 
-  it 'calls the airport for permission to take take_off' do
+  it 'calls the airport for permission to take_off' do
     airport = double :airport
     airport.should_receive(:permission_given_to_take_off?)
 
