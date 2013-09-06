@@ -36,10 +36,6 @@ require 'plane'
     plane.land?(airport)
   end
 
-    # van = double :van, {:fill  => fixed_bikes}
-    # van.should_receive(:fill).with(fixed_bikes)
-    # garage.call_van(van, fixed_bikes)
-
   
 end
 
