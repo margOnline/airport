@@ -5,7 +5,8 @@ require 'weather'
   let(:weather) {Weather.new}
   
   it 'is randomly set when initialized' do
-    expect(weather.new). to eq 'sunny' || 'stormy'
+    # conditions = %w(sunny stormy)
+    weather.condition.should be('sunny', 'stormy')
   end
 
 

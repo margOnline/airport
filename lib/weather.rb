@@ -1,15 +1,19 @@
 class Weather
 
   attr_accessor :condition
+  
+  CONDITIONS = %w(sunny stormy)
 
   def inititalize
-    @conditions = ['sunny', 'stormy']
-    @condition = @conditions.sample 
+    @condition = set_weather  
   end
 
+  def set_weather
+    CONDITIONS.sample
+  end
 
   def is_sunny?
-    @condition == 'sunny'
+    @condition == CONDITIONS[0]
   end
 
   def is_stormy?
@@ -17,7 +21,7 @@ class Weather
   end
 
   def change!
-    @condition == @conditions[0] ? @conditions[1] : @conditions[0]
+    @condition == CONDITIONS[0] ? CONDITIONS[1] : CONDITIONS[0]
     
   end
 
