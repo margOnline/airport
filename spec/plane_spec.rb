@@ -23,9 +23,22 @@ require 'plane'
     plane.land?(airport).should be_false
   end
 
+  it 'calls the airport for permission to take take_off' do
+    airport = double :airport
+    airport.should_receive(:permission_given_to_take_off?)
 
+    plane.take_off?(airport)
+  end
 
+  it 'calls airport for permission to land' do
+    airport = double :airport 
+    airport.should_receive(:permission_given_to_land?)
+    plane.land?(airport)
+  end
 
+    # van = double :van, {:fill  => fixed_bikes}
+    # van.should_receive(:fill).with(fixed_bikes)
+    # garage.call_van(van, fixed_bikes)
 
   
 end
