@@ -5,8 +5,9 @@ require 'weather'
   let(:weather) {Weather.new}
   
   it 'is randomly set when initialized' do
+    weather = double :weather, {:condition => 'sunny'}
     conditions = %w(sunny stormy)
-    expect(conditions.include(weather.condition)).to be_true
+    expect(conditions.sample).to eq weather.condition
   end
 
 
