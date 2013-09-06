@@ -44,12 +44,28 @@ describe Airport do
   end
 
   it 'lands planes if there is no bomb_alert' do
+    weather = double :weather
     plane = double :plane
     expect(airport.land plane).to eq [plane]
   end
 
   it 'does not land planes if there is a bomb_alert' do
+    weather = double :weather
+    plane = double :plane
     expect{airport.land(plane)}.to raise_error 'Permission denied due to security alert'
+  end
+
+  it 'lands planes if there is space in the airport' do
+    weather = double :weather
+    plane = double :plane
+    expect(airport.land plane).to eq [plane]
+  end
+
+  it 'does not land planes if there is no space' do
+    weather = double :weather
+    plane = double :plane
+    airport = Airport.new(0)
+    expect{airport.land(plane)}.to raise_error 'Permission denied - airport full'
   end
   
 end
