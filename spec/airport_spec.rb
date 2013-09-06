@@ -35,6 +35,7 @@ describe Airport do
   end
 
   it 'knows if it is full' do
+    airport = Airport.new(0)
     expect(airport.full?).to be_true
   end
 
