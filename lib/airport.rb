@@ -2,14 +2,15 @@ require 'weather'
 
 class Airport
 
-  attr_accessor :planes, :bomb_alert
+  attr_accessor :planes, :bomb_alert, :weather
+  attr_reader :name
 
-  def initialize (max_capacity, planes=[], bomb_alert = false)
+  def initialize (name, max_capacity, planes=[], bomb_alert = false)
+    @name = name
     @planes = planes
     @bomb_alert = bomb_alert
     @weather = Weather.new
     @max_capacity = max_capacity
-
   end
 
   def set weather

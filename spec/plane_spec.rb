@@ -1,7 +1,11 @@
 require 'plane'
 
   describe Plane do 
-  let(:plane) {Plane.new}
+  let(:plane) {Plane.new('Harry')}
+
+  it 'has a name' do
+    expect(plane.name).to eq 'Harry'
+  end
 
   it 'can take_off' do
     airport = double :airport, {:permission_given_to_take_off? => true}
