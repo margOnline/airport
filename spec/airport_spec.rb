@@ -12,47 +12,53 @@ describe Airport do
     expect(airport.planes).to eq []
   end
 
-  it 'can have sunny weather' do
-    weather = double :weather, {:condition => 'sunny'}
-    conditions = %w(sunny stormy)
-    expect(conditions.include?(weather.condition)).to be_true
-  end
+  context 'weather is' do
+    it 'sunny' do
+      weather = double :weather, {:condition => 'sunny'}
+      conditions = %w(sunny stormy)
+      expect(conditions.include?(weather.condition)).to be_true
+    end
 
-  it 'can have stormy weather' do
-    weather = double :weather, {:condition => 'stormy'}
-    conditions = %w(sunny stormy)
-    expect(conditions.include?(weather.condition)).to be_true
-  end
+    it 'stormy' do
+      weather = double :weather, {:condition => 'stormy'}
+      conditions = %w(sunny stormy)
+      expect(conditions.include?(weather.condition)).to be_true
+    end
+   end 
 
-  it 'does not have a bomb alert' do
-    expect(airport.bomb_alert?).to be_false
-  end
+  context 'security' do
+    it 'has no bomb alert' do
+      expect(airport.bomb_alert?).to be_false
+    end
 
-  it 'can have a bomb alert' do
-    airport = Airport.new('Logan', 5, :planes, true)
-    expect(airport.bomb_alert?).to be_true
-  end
+    it 'has bomb alert' do
+      airport = Airport.new('Logan', 5, :planes, true)
+      expect(airport.bomb_alert?).to be_true
+    end
 
-  it 'can set a bomb_alert' do
-    airport = Airport.new('Logan',5, :planes)
-    airport.bomb_alert!
-    expect(airport.bomb_alert).to be_true
-  end
+    it 'raises bomb_alert' do
+      airport = Airport.new('Logan',5, :planes)
+      airport.bomb_alert!
+      expect(airport.bomb_alert).to be_true
+    end
 
-  it 'can clear a bomb_alert' do
-    airport = Airport.new('Logan',5, :planes, true)
-    airport.clear_bomb_alert!
-    expect(airport.bomb_alert).to be_false
-  end
+    it 'clears bomb_alert' do
+      airport = Airport.new('Logan',5, :planes, true)
+      airport.clear_bomb_alert!
+      expect(airport.bomb_alert).to be_false
+    end
+   end 
 
-  it 'knows if it is full' do
-    airport = Airport.new('Logan',0)
-    expect(airport.full?).to be_true
-  end
+   context 'capacity:' do
+    it 'is full' do
+      airport = Airport.new('Logan',0)
+      expect(airport.full?).to be_true
+    end
 
-  it 'knows if it has spaces to land planes' do
-    expect(airport.has_capacity?).to be_true
-  end
+    it 'is not full' do
+      expect(airport.has_capacity?).to be_true
+    end
+   end 
 
   it 'lands planes if there is no bomb_alert' do
     weather = double :weather
@@ -122,8 +128,9 @@ describe Airport do
 
   it 'does not let planes take off if the weather is stormy' do
     plane = double :plane
-    airport = {:weather => 'stormy'}
-  
+    weather1 = double :weather,{:is_stormy? => true}
+    airport = Airport.new('Logan', 5,[plane])
+    airport.weather = 'stormy'
     expect{airport.take_off(plane)}.to raise_error 'Permission denied - poor weather conditions'
   end
 
