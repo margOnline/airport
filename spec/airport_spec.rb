@@ -3,6 +3,7 @@ require 'airport'
 
 describe Airport do 
   let(:airport) {Airport.new('Logan',5)}
+ 
 
   it 'has a name'  do
     expect(airport.name).to eq 'Logan'
@@ -89,7 +90,8 @@ describe Airport do
     it 'weather is stormy' do
       weather = double :weather, {:is_stormy? => true}
       plane = double :plane
-      expect{airport.land(plane)}.to raise_error 'Permission denied - poor weather conditions'
+      airport.weather = weather
+      expect{airport.land(plane)}.to raise_error 'Permission denied - poor weather conditions'  
     end
 
     it 'at full capacity' do
@@ -129,17 +131,10 @@ describe Airport do
 
     it 'weather is stormy' do
       plane = double :plane
-      weather1 = double :weather,{:is_stormy? => true}
-      airport = Airport.new('Logan', 5,[plane])
-      airport.weather = 'stormy'
+      airport = Airport.new('Logan',5, [plane])
+      weather = double :weather, {:is_stormy? => true}
+      airport.weather = weather
       expect{airport.take_off(plane)}.to raise_error 'Permission denied - poor weather conditions'
     end
-
-    it 'no plane' do
-        airport = Airport.new('Logan',5, [], false)
-        plane = double :plane
-        expect{airport.take_off(plane)}.to raise_error 'Permission denied - no planes in the airport'
-    end
-   end 
-  
+  end  
 end
