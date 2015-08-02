@@ -1,18 +1,17 @@
 class Plane
   
-  attr_reader :name 
-  
+  attr_reader :name   
 
   def initialize(name)
-    @name = name   
-  end 
-
-  def take_off? (airport)
-    airport.permission_given_to_take_off?
+    @name = name
   end
 
-  def land?(airport)
-    airport.permission_given_to_land? 
+  def take_off_from airport
+    airport.take_off self
+  end
+
+  def land_at airport
+    airport.land self
   end
 
 end

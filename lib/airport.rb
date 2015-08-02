@@ -1,5 +1,5 @@
-require 'weather'
-require 'runway'
+require_relative 'weather'
+require_relative 'runway'
 
 class Airport
 
@@ -12,11 +12,7 @@ class Airport
     @bomb_alert = bomb_alert
     @weather = Weather.new
     @max_capacity = max_capacity
-    @runway = Runway.new
-  end
-
-  def set weather
-    @weather = @weather.set
+    @runway = Runway.new('1')
   end
 
   def bomb_alert?
@@ -42,28 +38,37 @@ class Airport
   def no_planes?
     planes.length < 1
   end
+  
+  def is_stormy?
+    !is_sunny?
+  end
+
+  def is_sunny?
+    weather.condition == 'sunny'
+  end
 
   def permission_given_to_land?
-    raise 'Permission denied due to security alert' if bomb_alert?
-    raise 'Permission denied - airport full' if full?
-    raise 'Permission denied - poor weather conditions' if @weather.is_stormy?
-    true
+    landing_denied = []
+    landing_denied << 'security alert' if bomb_alert?
+    landing_denied << 'airport full' if full?
+    landing_denied << 'poor weather conditions' if is_stormy?
+    landing_denied.none?
   end
 
   def permission_given_to_take_off?
-    raise 'Permission denied due to security alert' if bomb_alert?
-    raise 'Permission denied - no planes in the airport' if no_planes?
-    raise 'Permission denied - poor weather conditions' if @weather.is_stormy?
-    true
+    take_off_denied = []
+    take_off_denied << 'security alert' if bomb_alert?
+    take_off_denied << 'no planes in the airport' if no_planes?
+    take_off_denied << 'poor weather conditions' if is_stormy?
+    take_off_denied.none?
   end
 
   def land(plane)
-    planes = @planes.push(plane) if permission_given_to_land?
+    @planes.push(plane) if permission_given_to_land?
   end
 
   def take_off(plane)
     @planes.delete(plane) if permission_given_to_take_off?
-    planes
   end
 
 end

@@ -1,15 +1,10 @@
 require 'runway'
 
 describe Runway do
-let(:runway) {Runway.new}
+let(:runway) {Runway.new('1')}
 
-  it 'exists' do
-    runway = Runway.new
+  it 'has a name' do
+    expect(runway.name).to eq '1'
   end
-
-  xit 'to' do
-    expectrunway
-  end
-
 
 end
