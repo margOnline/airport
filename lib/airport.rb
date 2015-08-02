@@ -36,31 +36,15 @@ class Airport
   end
 
   def no_planes?
-    planes.length < 1
-  end
-  
-  def is_stormy?
-    !is_sunny?
-  end
-
-  def is_sunny?
-    weather.condition == 'sunny'
+    planes.none?
   end
 
   def permission_given_to_land?
-    landing_denied = []
-    landing_denied << 'security alert' if bomb_alert?
-    landing_denied << 'airport full' if full?
-    landing_denied << 'poor weather conditions' if is_stormy?
-    landing_denied.none?
+    airport_safe? && has_capacity?
   end
 
   def permission_given_to_take_off?
-    take_off_denied = []
-    take_off_denied << 'security alert' if bomb_alert?
-    take_off_denied << 'no planes in the airport' if no_planes?
-    take_off_denied << 'poor weather conditions' if is_stormy?
-    take_off_denied.none?
+    airport_safe? && !no_planes?
   end
 
   def land(plane)
@@ -69,6 +53,18 @@ class Airport
 
   def take_off(plane)
     @planes.delete(plane) if permission_given_to_take_off?
+  end
+
+  private
+  def is_sunny?
+    weather.condition == 'sunny'
+  end
+  def is_stormy?
+    !is_sunny?
+  end
+
+  def airport_safe?
+    !bomb_alert && is_sunny?
   end
 
 end
