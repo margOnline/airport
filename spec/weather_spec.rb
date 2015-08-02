@@ -1,30 +1,27 @@
+require 'spec_helper'
 require 'weather'
 
   describe Weather do 
 
-  let(:weather) {Weather.new}
+    let(:conditions) { %w(sunny stormy)}
+    let(:weather) {Weather.new()}
+
+    it 'has weather conditions' do
+      expect(weather.conditions).not_to be_empty
+    end
   
-  it 'is randomly set when initialized' do
-    weather = double :weather, {:condition => 'sunny'}
-    conditions = %w(sunny stormy)
-    expect(conditions.sample).to eq weather.condition
-  end
+    it 'returns the forecast' do
+      expect(weather.conditions).to receive(:sample)
+      weather.forecast
+    end
 
+    it 'changes to sunny' do
+      weather.sunny!
+      expect(weather.condition).to eq 'sunny'
+    end
 
-  it 'can be sunny' do
-    weather.condition = 'sunny'
-    expect(weather.is_sunny?).to be_true
-  end
-
-  it 'can be stormy' do
-    weather.condition = 'stormy'
-    expect(weather.is_stormy?).to be_true
-  end
-
-  it 'can change' do
-    weather.condition = 'stormy'
-    expect(weather.change!).to eq 'sunny'
-  end
-
-  
+    it 'changes to stormy' do
+      weather.stormy!
+      expect(weather.condition).to eq 'stormy'
+    end
 end

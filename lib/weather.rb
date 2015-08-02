@@ -1,28 +1,21 @@
 class Weather
 
-  attr_accessor :condition
-  
-  CONDITIONS = %w(sunny stormy)
+  attr_reader :conditions, :condition
 
-  def inititalize
-    @condition = set 
+  def initialize(conditions = ['sunny','stormy'], condition = 'sunny')
+    @conditions = conditions
   end
 
-  def set
-    CONDITIONS.sample
+  def forecast
+    @conditions.sample
   end
 
-  def is_sunny?
-    @condition == CONDITIONS[0]
+  def sunny!
+    @condition = 'sunny'
   end
 
-  def is_stormy?
-    @condition == CONDITIONS[1]
-  end
-
-  def change!
-    @condition == CONDITIONS[0] ? CONDITIONS[1] : CONDITIONS[0]
-    
+  def stormy!
+    @condition = 'stormy'
   end
 
 end
